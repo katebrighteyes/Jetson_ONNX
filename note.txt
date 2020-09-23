@@ -1,0 +1,29 @@
+
+
+./install_pytorch_1.6.0.sh
+./install_torch2trt.sh
+
+
+cd ~/jetson-inference/python/training/detection/pytorch-ssd/
+
+python3 open_images_downloader.py --stats-only --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon" --data=data/fruit
+
+python3 open_images_downloader.py --max-images=2500 --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon" --data=data/fruit
+
+python3 train_ssd.py --data=data/fruit --model-dir=models/fruit --batch-size=4 --epochs=30
+
+cd models/fruit
+mkdir onnx
+
+cd ~/jetson-inference/python/training/detection/pytorch-ssd/
+
+cp models/fruit/labels.txt ./models/fruit/onnx/
+
+cp models/fruit/mb1-ssd-Epoch-29-Loss-4.222576321467109.pth models/fruit/onnx/
+
+python3 onnx_export.py --model-dir=models/fruit/onnx
+
+ 
+detectnet --model=models/fruit/onnx/ssd-mobilenet.onnx --labels=models/fruit/onnx/labels.txt \
+          --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
+            /dev/video0 
