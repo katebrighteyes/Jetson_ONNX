@@ -1,18 +1,41 @@
+1. 준비
+  (1. Jetpack4.4 설치되어있어야함.
+  (2. Jetson-inference 가 설치되어있어야 함.
 
+2. 환경 설치
+git clone https://github.com/katebrighteyes/Jetson_ONNX
 
 ./install_pytorch_1.6.0.sh
 ./install_torch2trt.sh
 
+3. ~/jetson-inference/python/training/detection/ 폴더 아래에
+    pytorch-ssd 소스 내려받고 해당 폴더로 이동
+    
+cd ~/jetson-inference/python/training/detection/
 
+git clone https://github.com/dusty-nv/pytorch-detection.git
+    
 cd ~/jetson-inference/python/training/detection/pytorch-ssd/
+
+
+4. 다운받고자 하는 데이터셋의 갯수를 파악한다
 
 python3 open_images_downloader.py --stats-only --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon" --data=data/fruit
 
+5. 2500 개로 최대 수를 제한하여 데이터셋을 다운받는다.
+
 python3 open_images_downloader.py --max-images=2500 --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon" --data=data/fruit
+
+6. ssd mobilenet 트레이닝
 
 python3 train_ssd.py --data=data/fruit --model-dir=models/fruit --batch-size=4 --epochs=30
 
+7. pth 파일 확인
+
 cd models/fruit
+
+8. onnx 폴더를 만들고 pth 파일하고 labels.txt 파일을 onnx 폴더로 copy 한다.
+
 mkdir onnx
 
 cd ~/jetson-inference/python/training/detection/pytorch-ssd/
@@ -21,9 +44,12 @@ cp models/fruit/labels.txt ./models/fruit/onnx/
 
 cp models/fruit/mb1-ssd-Epoch-29-Loss-4.222576321467109.pth models/fruit/onnx/
 
+9. pth -> onnx 변환
+
 python3 onnx_export.py --model-dir=models/fruit/onnx
 
- 
+10. detectnet 으로 실행
+
 detectnet --model=models/fruit/onnx/ssd-mobilenet.onnx --labels=models/fruit/onnx/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
             /dev/video0 
