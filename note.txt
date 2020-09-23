@@ -30,6 +30,12 @@ python3 open_images_downloader.py --max-images=2500 --class-names "Apple,Orange,
 
 python3 train_ssd.py --data=data/fruit --model-dir=models/fruit --batch-size=4 --epochs=30
 
+* https://nvidia.box.com/shared/static/gq0zlf0g2r258g3ldabl9o7vch18cxmi.gz
+
+  python3 train_ssd.py --data=data/fruit --model-dir=models/fruit --batch-size=4 --epochs=5 --resume=pretrained/mb1-ssd-Epoch-99-Loss-3.454277849197388.pth 
+
+
+
 7. pth 파일 확인
 
 cd models/fruit
