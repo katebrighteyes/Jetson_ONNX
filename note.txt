@@ -56,6 +56,10 @@ python3 onnx_export.py --model-dir=models/fruit/onnx
 
 10. detectnet 으로 실행
 
+detectnet --model=_models/fruit/onnx/ssd-mobilenet.onnx --labels=_models/fruit/onnx/labels.txt \
+          --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
+            /dev/video0 
+            
 detectnet --model=models/fruit/onnx/ssd-mobilenet.onnx --labels=models/fruit/onnx/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
             /dev/video0 
