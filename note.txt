@@ -5,8 +5,8 @@
 2. 환경 설치
 git clone https://github.com/katebrighteyes/Jetson_ONNX
 
-./install_pytorch_1.8.0.sh
-./install_torch2trt.sh
+./install_pytorch_1.8.0.sh  (30~1시간 소요)
+./install_torch2trt.sh 
 
 -- 여기서 부터는 코랩에서 진행하는 것을 권장 (jupyter notebook 이용)
 
@@ -29,13 +29,13 @@ pip3 install -v -r requirements.txt
 
 python3 open_images_downloader.py --stats-only --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon" --data=data/fruit
 
-6. 2500 개로 최대 수를 제한하여 데이터셋을 다운받는다.
+6. 2500 개로 최대 수를 제한하여 데이터셋을 다운받는다. (코랩에서는 빠르지만 로컬에서는 1시간 정도 소요될 수 있음)
 
 python3 open_images_downloader.py --max-images=2500 --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon" --data=data/fruit
 
-7. ssd mobilenet 트레이닝
+7. ssd mobilenet 트레이닝 (코랩에서 1시간 넘게 소요, 자비에에서 2시간, tx2에서 4시간 이상)
 
-python3 train_ssd.py --data=data/fruit --model-dir=models/fruit --batch-size=4 --epochs=30
+python3 train_ssd.py --data=data/fruit --model-dir=models/fruit --batch-size=4 --epochs=30 
 
 * 코랩에서는 : python3 train_ssd.py --data=data/fruit --model-dir=models/fruit --batch-size=16 --epochs=30
 
