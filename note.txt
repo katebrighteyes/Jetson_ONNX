@@ -58,24 +58,24 @@ cd models/fruit
 
 8. onnx 폴더를 만들고 pth 파일하고 labels.txt 파일을 onnx 폴더로 copy 한다.
 
-cd ~/jetson-inference/python/training/detection/
+cd ~/jetson-inference/python/training/detection/pytorch-ssd/
 
 mkdir onnx
 
-cp (다운로드 폴더나 model/fruit폴더)/labels.txt ./onnx/
+cp (다운로드 폴더나 model/fruit폴더)/labels.txt ./models/onnx/
 
-cp (다운로드 폴더나 model/fruit폴더)/lmb1-ssd-Epoch-29-Loss-4.222576321467109.pth ./onnx/
+cp (다운로드 폴더나 model/fruit폴더)/lmb1-ssd-Epoch-29-Loss-4.222576321467109.pth ./models/onnx/
 
 9. pth -> onnx 변환
 
-python3 onnx_export.py --model-dir=./onnx
+python3 onnx_export.py --model-dir=./models/onnx
 
 10. detectnet 으로 실행
 
-detectnet --model=./onnx/ssd-mobilenet.onnx --labels=./onnx/labels.txt \
+detectnet --model=./models/onnx/ssd-mobilenet.onnx --labels=./models/onnx/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
             /dev/video0 
             
-detectnet --model=./onnx/ssd-mobilenet.onnx --labels=./onnx/labels.txt \
+detectnet --model=./models/onnx/ssd-mobilenet.onnx --labels=./models/onnx/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
             /dev/video1 
