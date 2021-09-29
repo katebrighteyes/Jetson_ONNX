@@ -78,4 +78,8 @@ detectnet --model=./models/onnx/ssd-mobilenet.onnx --labels=./models/onnx/labels
             
 detectnet --model=./models/onnx/ssd-mobilenet.onnx --labels=./models/onnx/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
+            /dev/video1
+            
+detectnet --model=./onnx/ssd-mobilenet.onnx --labels=./onnx/labels.txt \
+          --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
             /dev/video1 
