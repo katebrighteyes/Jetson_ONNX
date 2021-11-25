@@ -1,0 +1,28 @@
+# jetson-inference libraris
+sudo apt-get install git cmake
+
+# clone the repo and submodules
+
+git clone https://github.com/dusty-nv/jetson-inference
+
+cd jetson-inference
+
+git checkout 19ed62150b3e9499bad2ed6be1960dd38002bb7d
+
+git submodule update --init
+
+# build from source
+mkdir build
+cd build
+cmake ../
+make
+
+# install libraries
+sudo make install
+sudo ldconfig
+
+OR
+make ; sudo make install; sudo ldconfig
+
+# test
+detectnet /dev/video0
